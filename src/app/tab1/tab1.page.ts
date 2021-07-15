@@ -103,7 +103,12 @@ export class Tab1Page implements OnInit {
     });
 
     textNode.on('dblclick dbltap', () => {
-
+      textNode.setAttrs({
+        text: 'Example text',
+        fontSize: 60,
+        fill: 'red',
+      });
+      return;
       // hide text node and transformer:
       textNode.hide();
       tr.hide();
