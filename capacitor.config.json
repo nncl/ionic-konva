@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "ionic-konva",
+	"appId": "io.dindigital.konva-starter",
+	"appName": "konva-starter",
 	"webDir": "www",
 	"bundledWebRuntime": false
 }
