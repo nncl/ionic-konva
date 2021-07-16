@@ -85,7 +85,7 @@ export class Tab1Page implements AfterViewInit {
         // height: 280,
         id: 'canvas-moldura',
         listening: false
-      });
+      });//
       this.layer.add(mockup);
     });
 

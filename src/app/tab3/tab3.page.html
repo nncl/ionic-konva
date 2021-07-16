@@ -7,17 +7,36 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+<!--  <ng-container *ngIf="($label | async) as img">-->
+<!--    <div class="container">-->
+<!--      <img [src]="img" alt="Balloons">-->
+<!--    </div>-->
+
+<!--    <div class="container">-->
+<!--      <img class="one" [src]="img" alt="Balloons">-->
+<!--    </div>-->
+
+<!--    <div class="container">-->
+<!--      <img class="two" [src]="img" alt="Balloons">-->
+<!--    </div>-->
+<!--  </ng-container>-->
   <div class="ion-text-center">
     <img src="/assets/bottle.png" alt="Bottle">
 
     <div *ngIf="($label | async) as img" class="svg-clip">
-      <svg width="295" height="295">
+      <svg width="295"
+           height="295">
         <clipPath clipPathUnits="objectBoundingBox" id="label-01">
           <path d="M0,0.5 a0.5,0.5,0,1,0,1,0 a0.5,0.5,0,1,0,-1,0"></path>
         </clipPath>
       </svg>
 
-      <img [src]="img" style="clip-path: url(#label-01)" width="295" height="295">
+      <img [src]="img"
+           style="clip-path: url(#label-01); -webkit-clip-path: url(#label-01)"
+           width="295"
+           height="295">
     </div>
   </div>
+
+<!--  <canvas id="canvas"></canvas>-->
 </ion-content>
