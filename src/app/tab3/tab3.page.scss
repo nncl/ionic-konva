@@ -1,0 +1,19 @@
+.svg-clip {
+  position: absolute;
+  top: 500px;
+  left: 0;
+  right: 0;
+  height: 295px;
+  width: 295px;
+  margin: auto;
+
+  svg,
+  img {
+    position: inherit;
+    left: 0;
+  }
+
+  img {
+    max-width: none;
+  }
+}

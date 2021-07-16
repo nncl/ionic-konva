@@ -48,8 +48,8 @@ export class Tab1Page implements AfterViewInit {
 
     this.stage = new Konva.Stage({
       container: 'container',
-      width: 1028, // FIXME 1280
-      height: 1028, // FIXME 1280
+      width: 1280, // FIXME 1028
+      height: 1280, // FIXME 1028
     });
 
     this.layer = new Konva.Layer();
@@ -77,7 +77,7 @@ export class Tab1Page implements AfterViewInit {
     });
 
     // Moldura
-    Konva.Image.fromURL('/assets/moldura-big-2.png', (mockup) => {
+    Konva.Image.fromURL('/assets/moldura-2.png', (mockup) => {
       mockup.setAttrs({
         // x: (width / 2) - 140,
         // y: (height / 2) - 140,
@@ -218,7 +218,7 @@ export class Tab1Page implements AfterViewInit {
 
   async redirect(): Promise<any> {
     const width = window.innerWidth;
-    const { height } = this;
+    const {height} = this;
 
     this.toggleTextControls(false);
 

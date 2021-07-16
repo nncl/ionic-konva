@@ -7,5 +7,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <img src="/assets/bottle.png" alt="Bottle">
+  <div class="ion-text-center">
+    <img src="/assets/bottle.png" alt="Bottle">
+
+    <div *ngIf="($label | async) as img" class="svg-clip">
+      <svg width="295" height="295">
+        <clipPath clipPathUnits="objectBoundingBox" id="label-01">
+          <path d="M0,0.5 a0.5,0.5,0,1,0,1,0 a0.5,0.5,0,1,0,-1,0"></path>
+        </clipPath>
+      </svg>
+
+      <img [src]="img" style="clip-path: url(#label-01)" width="295" height="295">
+    </div>
+  </div>
 </ion-content>
