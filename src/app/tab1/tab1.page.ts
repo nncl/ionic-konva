@@ -15,6 +15,7 @@ export class Tab1Page implements AfterViewInit {
   layer: Konva.Layer;
   textNode: Konva.Text | any;
   tr: Konva.Transformer;
+  height = 0;
 
   constructor(private router: Router,
               private label: LabelService) {
@@ -28,8 +29,8 @@ export class Tab1Page implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      const height = this.content.el.clientHeight;
-      this.build(height);
+      this.height = this.content.el.clientHeight;
+      this.build(this.height);
     }, 1000);
   }
 
@@ -47,12 +48,16 @@ export class Tab1Page implements AfterViewInit {
 
     this.stage = new Konva.Stage({
       container: 'container',
-      width,
-      height,
+      width: 1028, // FIXME 1280
+      height: 1028, // FIXME 1280
     });
 
     this.layer = new Konva.Layer();
     this.stage.add(this.layer);
+
+    const size = width > height ? height : width;
+    this.stage.scale({x: size / 1280, y: size / 1280});
+    this.stage.draw();
 
     /*
      * Imagem do usuário selecionando do celular.
@@ -72,12 +77,12 @@ export class Tab1Page implements AfterViewInit {
     });
 
     // Moldura
-    Konva.Image.fromURL('/assets/moldura.png', (mockup) => {
+    Konva.Image.fromURL('/assets/moldura-big-2.png', (mockup) => {
       mockup.setAttrs({
-        x: (width / 2) - 140,
-        y: (height / 2) - 140,
-        width: 280,
-        height: 280,
+        // x: (width / 2) - 140,
+        // y: (height / 2) - 140,
+        // width: 280,
+        // height: 280,
         id: 'canvas-moldura',
         listening: false
       });
@@ -89,7 +94,7 @@ export class Tab1Page implements AfterViewInit {
       x: this.stage.width() / 2,
       y: (height / 2) - 15,
       text: 'Simple Text',
-      fontSize: 30,
+      fontSize: 120,
       fontFamily: 'Calibri',
       fill: 'green',
       draggable: true,
@@ -121,7 +126,7 @@ export class Tab1Page implements AfterViewInit {
     this.textNode.on('dblclick dbltap', () => {
       this.textNode.setAttrs({
         text: 'Example text',
-        fontSize: 60,
+        fontSize: 200,
         fill: 'red',
       });
     });
@@ -212,10 +217,25 @@ export class Tab1Page implements AfterViewInit {
   }
 
   async redirect(): Promise<any> {
+    const width = window.innerWidth;
+    const { height } = this;
+
     this.toggleTextControls(false);
+
+    /**
+     * TODO
+     *  Rótulo: 1028x1028
+     *  Moldura: 1280x1280
+     */
+
+    this.stage.scale({x: 1, y: 1});
+    this.stage.draw();
     const base64 = this.stage.toDataURL();
     this.label.label.next(base64);
     await this.router.navigate([ '/tabs', 'tab2' ]);
+    const size = width > height ? height : width;
+    this.stage.scale({x: size / 1280, y: size / 1280});
+    this.stage.draw();
   }
 
 }
