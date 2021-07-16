@@ -49,11 +49,11 @@ export class Tab1Page implements AfterViewInit {
      *  dinâmica.
      */
     Konva.Image.fromURL('https://dummyimage.com/300x800', (userImage) => {
+      const {width: imgWidth = 0, height: imgHeight = 0} = userImage?.attrs?.image || {};
+
       userImage.setAttrs({
-        x: (width / 2) - 140,
-        y: (height / 2) - 140,
-        width: 280,
-        height: 280,
+        x: (width / 2) - (imgWidth / 2),
+        y: (height / 2) - (imgHeight / 2),
         draggable: true
       });
       layer.add(userImage);
@@ -192,6 +192,10 @@ export class Tab1Page implements AfterViewInit {
     );
 
     stage.add(layer);
+  }
+
+  refresh(): void {
+    location.reload();
   }
 
 }
