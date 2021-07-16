@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import Konva from 'konva';
 import { IonContent } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { LabelService } from '../services/label/label.service';
 
 @Component({
   selector: 'app-tab1',
@@ -9,8 +11,19 @@ import { IonContent } from '@ionic/angular';
 })
 export class Tab1Page implements AfterViewInit {
   @ViewChild('content') content: any;
+  stage: Konva.Stage;
+  layer: Konva.Layer;
+  textNode: Konva.Text | any;
+  tr: Konva.Transformer;
 
-  constructor() {
+  constructor(private router: Router,
+              private label: LabelService) {
+  }
+
+  ionViewWillEnter(): void {
+    if (this.stage) {
+      this.toggleTextControls(true);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -21,7 +34,6 @@ export class Tab1Page implements AfterViewInit {
   }
 
   build(height = 0): void {
-
     Konva.hitOnDragEnabled = true;
 
     /**
@@ -33,20 +45,20 @@ export class Tab1Page implements AfterViewInit {
     const width = window.innerWidth;
     // const height = window.innerHeight;
 
-    const stage = new Konva.Stage({
+    this.stage = new Konva.Stage({
       container: 'container',
       width,
       height,
     });
 
-    const layer = new Konva.Layer();
-    stage.add(layer);
+    this.layer = new Konva.Layer();
+    this.stage.add(this.layer);
 
     /*
-     * Imagem do usuário selecionando do celular
-     * TODO Verificar se deixaremos a imagem com tamanho original ou
-     *  se setaremos a largura máxima da viewport e a altura de forma
-     *  dinâmica.
+     * Imagem do usuário selecionando do celular.
+     * Verificar se deixaremos a imagem com tamanho original ou
+     * se setaremos a largura máxima da viewport e a altura de forma
+     * dinâmica.
      */
     Konva.Image.fromURL('https://dummyimage.com/300x800', (userImage) => {
       const {width: imgWidth = 0, height: imgHeight = 0} = userImage?.attrs?.image || {};
@@ -56,7 +68,7 @@ export class Tab1Page implements AfterViewInit {
         y: (height / 2) - (imgHeight / 2),
         draggable: true
       });
-      layer.add(userImage);
+      this.layer.add(userImage);
     });
 
     // Moldura
@@ -69,12 +81,12 @@ export class Tab1Page implements AfterViewInit {
         id: 'canvas-moldura',
         listening: false
       });
-      layer.add(mockup);
+      this.layer.add(mockup);
     });
 
     // Texto
-    var textNode: any = new Konva.Text({
-      x: stage.width() / 2,
+    this.textNode = new Konva.Text({
+      x: this.stage.width() / 2,
       y: (height / 2) - 15,
       text: 'Simple Text',
       fontSize: 30,
@@ -84,40 +96,40 @@ export class Tab1Page implements AfterViewInit {
       align: 'center',
     });
 
-    // TODO
     // to align text in the middle of the screen, we can set the
     // shape offset to the center of the text shape after instantiating it
-    textNode.offsetX(textNode.width() / 2);
+    this.textNode.offsetX(this.textNode.width() / 2);
 
-    var tr = new Konva.Transformer({
-      node: textNode,
+    this.tr = new Konva.Transformer({
+      node: this.textNode,
       enabledAnchors: [ 'middle-left', 'middle-right' ],
       // set minimum width of text
-      boundBoxFunc: function (oldBox, newBox) {
+      boundBoxFunc: (oldBox, newBox) => {
         newBox.width = Math.max(30, newBox.width);
         return newBox;
       },
     });
 
-    textNode.on('transform', function () {
+    this.textNode.on('transform', () => {
       // reset scale, so only with is changing by transformer
-      textNode.setAttrs({
-        width: textNode.width() * textNode.scaleX(),
+      this.textNode.setAttrs({
+        width: this.textNode.width() * this.textNode.scaleX(),
         scaleX: 1,
       });
     });
 
-    textNode.on('dblclick dbltap', () => {
-      textNode.setAttrs({
+    this.textNode.on('dblclick dbltap', () => {
+      this.textNode.setAttrs({
         text: 'Example text',
         fontSize: 60,
         fill: 'red',
       });
     });
 
+    // After images load
     setTimeout(() => {
-      layer.add(textNode);
-      layer.add(tr);
+      this.layer.add(this.textNode);
+      this.layer.add(this.tr);
     }, 3000);
 
     // PINCH
@@ -128,21 +140,7 @@ export class Tab1Page implements AfterViewInit {
       return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
     }
 
-    // TODO center?
-    // const stage = new Konva.Stage({
-    //   container: 'container',
-    //   width: width,
-    //   height: height,
-    //   draggable: true,
-    //   x: width / 2,
-    //   y: height / 2,
-    //   offset: {
-    //     x: width / 2,
-    //     y: height / 2,
-    //   },
-    // });
-
-    stage.on('tap', function (evt) {
+    this.stage.on('tap', function (evt) {
       // set active shape
       const shape = evt.target;
       activeShape =
@@ -151,7 +149,7 @@ export class Tab1Page implements AfterViewInit {
           : shape;
     });
 
-    stage.getContent().addEventListener(
+    this.stage.getContent().addEventListener(
       'touchmove',
       function (evt) {
         const touch1 = evt.touches[0];
@@ -183,7 +181,7 @@ export class Tab1Page implements AfterViewInit {
       false
     );
 
-    stage.getContent().addEventListener(
+    this.stage.getContent().addEventListener(
       'touchend',
       function () {
         lastDist = 0;
@@ -191,11 +189,33 @@ export class Tab1Page implements AfterViewInit {
       false
     );
 
-    stage.add(layer);
+    this.stage.add(this.layer);
+  }
+
+  toggleTextControls(enable = true): void {
+    if (enable) {
+      this.textNode.setAttrs({
+        draggable: true,
+      });
+
+      this.layer.add(this.tr);
+    } else {
+      this.textNode.setAttrs({
+        draggable: false,
+      });
+      this.tr.remove();
+    }
   }
 
   refresh(): void {
     location.reload();
+  }
+
+  async redirect(): Promise<any> {
+    this.toggleTextControls(false);
+    const base64 = this.stage.toDataURL();
+    this.label.label.next(base64);
+    await this.router.navigate([ '/tabs', 'tab2' ]);
   }
 
 }

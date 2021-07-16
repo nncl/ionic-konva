@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LabelService } from '../services/label/label.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-tab2',
@@ -6,7 +8,10 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+  $label: BehaviorSubject<any>;
 
-  constructor() {}
+  constructor(private labelService: LabelService) {
+    this.$label = labelService.label;
+  }
 
 }
