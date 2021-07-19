@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import Konva from 'konva';
-import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LabelService } from '../services/label/label.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
+import { CameraSource } from '@capacitor/camera/dist/esm/definitions';
 
 @Component({
   selector: 'app-tab1',
@@ -59,29 +60,17 @@ export class Tab1Page implements AfterViewInit {
     this.stage.scale({x: size / 1280, y: size / 1280});
     this.stage.draw();
 
-    /*
-     * Imagem do usuário selecionando do celular.
-     * Verificar se deixaremos a imagem com tamanho original ou
-     * se setaremos a largura máxima da viewport e a altura de forma
-     * dinâmica.
-     */
-    Konva.Image.fromURL('https://dummyimage.com/300x800', (userImage) => {
-      const {width: imgWidth = 0, height: imgHeight = 0} = userImage?.attrs?.image || {};
-
-      userImage.setAttrs({
-        x: (width / 2) - (imgWidth / 2),
-        y: (height / 2) - (imgHeight / 2),
-        draggable: true
-      });
-      this.layer.add(userImage);
-    });
-
     // Moldura
     Konva.Image.fromURL('/assets/moldura-2.png', (mockup) => {
+      mockup.setZIndex(100); // FIXME
+
       mockup.setAttrs({
         id: 'canvas-moldura',
         listening: false
       });
+
+      mockup.setZIndex(100);
+
       this.layer.add(mockup);
     });
 
@@ -248,6 +237,47 @@ export class Tab1Page implements AfterViewInit {
     const size = width > height ? height : width;
     this.stage.scale({x: size / 1280, y: size / 1280});
     this.stage.draw();
+  }
+
+  async upload(): Promise<any> {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos
+    });
+
+    const {dataUrl} = image;
+
+    this.addImageToCanvas(dataUrl);
+  }
+
+  /*
+   * Imagem do usuário selecionando do celular.
+   */
+  addImageToCanvas(path = '') {
+    if (!path) {
+      return;
+    }
+
+    const width = window.innerWidth;
+    const {height} = this;
+
+    const img = new Image();
+    // img.crossOrigin = 'Anonymous';
+    img.src = path;
+    img.onload = () => {
+      const image = new Konva.Image({
+        x: (width / 2) - (img.width / 2),
+        y: (height / 2) - (img.height / 2),
+        image: img,
+        draggable: true
+      });
+
+      this.layer.add(image);
+      image.image(img);
+      image.setZIndex(0);
+      this.stage.draw();
+    };
   }
 
 }
