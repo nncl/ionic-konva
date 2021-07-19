@@ -29,8 +29,9 @@
 //}
 //
 .container {
-  width: 400px;
-  height: 300px;
+  width: 100%;
+  max-width: 295px;
+  //height: 300px;
 
   position: absolute;
   top: 500px;
@@ -47,14 +48,12 @@
   mask-size: cover;
 }
 
+//$img: 'https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076';
+$img: '/assets/mask-custom.png';
+
 .one {
-  -webkit-mask-image: url(https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076);
-  mask-image: url(https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076);
+  -webkit-mask-image: url('#{$img}');
+  mask-image: url('#{$img}');
 }
 
-.two {
-  -webkit-mask-image: url('https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489');
-  mask-image: url('https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489');
-
-}
 
