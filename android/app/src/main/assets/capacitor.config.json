@@ -1,0 +1,6 @@
+{
+	"appId": "io.dindigital.konva-starter",
+	"appName": "konva-starter",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
