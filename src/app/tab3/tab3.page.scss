@@ -1,22 +1,22 @@
-.svg-clip {
-  position: absolute;
-  top: 500px;
-  left: 0;
-  right: 0;
-  height: 295px;
-  width: 295px;
-  margin: auto;
-
-  svg,
-  img {
-    position: inherit;
-    left: 0;
-  }
-
-  img {
-    max-width: none;
-  }
-}
+//.svg-clip {
+//  position: absolute;
+//  top: 500px;
+//  left: 0;
+//  right: 0;
+//  height: 295px;
+//  width: 295px;
+//  margin: auto;
+//
+//  svg,
+//  img {
+//    position: inherit;
+//    left: 0;
+//  }
+//
+//  img {
+//    max-width: none;
+//  }
+//}
 
 //body {
 //  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
@@ -28,28 +28,33 @@
 //  display: block;
 //}
 //
-//.container {
-//  width: 400px;
-//  height: 300px;
-//  margin: 1em auto;
-//}
-//
-//.container img {
-//  height: 100%;
-//  width: 100%;
-//  object-fit: cover;
-//  -webkit-mask-size: cover;
-//  mask-size: cover;
-//}
-//
-//.one {
-//  -webkit-mask-image: url(https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076);
-//  mask-image: url(https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076);
-//}
-//
-//.two {
-//  -webkit-mask-image: url('https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489');
-//  mask-image: url('https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489');
-//
-//}
-//
+.container {
+  width: 400px;
+  height: 300px;
+
+  position: absolute;
+  top: 500px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.container img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+
+.one {
+  -webkit-mask-image: url(https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076);
+  mask-image: url(https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask.png?v=1597756701076);
+}
+
+.two {
+  -webkit-mask-image: url('https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489');
+  mask-image: url('https://cdn.glitch.com/04eadd2b-7dd4-43fc-af3d-cff948811986%2Fstar-mask-gradient.png?v=1597757011489');
+
+}
+

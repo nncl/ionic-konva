@@ -79,13 +79,9 @@ export class Tab1Page implements AfterViewInit {
     // Moldura
     Konva.Image.fromURL('/assets/moldura-2.png', (mockup) => {
       mockup.setAttrs({
-        // x: (width / 2) - 140,
-        // y: (height / 2) - 140,
-        // width: 280,
-        // height: 280,
         id: 'canvas-moldura',
         listening: false
-      });//
+      });
       this.layer.add(mockup);
     });
 
