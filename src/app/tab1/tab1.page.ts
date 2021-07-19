@@ -125,6 +125,22 @@ export class Tab1Page implements AfterViewInit {
         fontSize: 200,
         fill: 'red',
       });
+
+      const PATH = 'M 0 300 a 300 300 0 1 1 1 0';
+      const text = new Konva.TextPath({
+        x: 600,
+        y: 600,
+        fill: 'orange',
+        textBaseline: 'bottom',
+        fontSize: 150,
+        fontFamily: 'Calibri',
+        text: 'SOME TEXT',
+        align: 'center',
+        data: PATH,
+        draggable: true,
+      });
+
+      this.layer.add(text);
     });
 
     // After images load
